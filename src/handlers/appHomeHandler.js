@@ -15,71 +15,59 @@ async function handleAppHomeOpened({ event, client }) {
   try {
     console.log(`App Home opened by user: ${userId}`);
 
-    // Show loading screen immediately
-    await client.views.publish({
-      user_id: userId,
-      view: {
-        type: 'home',
-        blocks: [
-          {
-            type: "header",
-            text: {
-              type: "plain_text",
-              text: "📊 SpinBot",
-              emoji: true
-            }
-          },
-          {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: "⏳ *Loading...*\n\nPlease wait while we fetch the latest data."
-            }
-          },
-          {
-            type: "context",
-            elements: [
-              {
-                type: "mrkdwn",
-                text: "_This may take a few seconds..._"
-              }
-            ]
-          }
-        ]
-      }
-    });
-    
-    console.log(`Loading screen published for user: ${userId}`);
-
-    // Now load the actual content
-    let blocks;
-
     // Check if user is authorized to view stats
     if (isAuthorizedUser(userId)) {
       console.log(`User ${userId} is authorized - loading stats`);
-      blocks = await buildStatsView(client);
+      
+      // Step 1: Show stats with loading indicator for channels (fast)
+      const statsBlocks = await buildStatsView(client, null);
+      
+      await client.views.publish({
+        user_id: userId,
+        view: {
+          type: 'home',
+          blocks: statsBlocks
+        }
+      });
+      
+      console.log(`Stats published with loading indicator for user: ${userId}`);
+      
+      // Step 2: Load channels in background and update (slow)
+      const { getBotChannels } = require('../utils/channelUtils');
+      const botChannels = await getBotChannels(client);
+      
+      console.log(`Bot channels loaded (${botChannels.length}), updating view`);
+      
+      // Step 3: Publish final view with channels
+      const finalBlocks = await buildStatsView(client, botChannels);
+      
+      await client.views.publish({
+        user_id: userId,
+        view: {
+          type: 'home',
+          blocks: finalBlocks
+        }
+      });
+      
+      console.log(`App Home fully updated for user: ${userId}`);
+      
     } else {
       console.log(`User ${userId} is not authorized - showing welcome screen`);
-      // Show welcome view for unauthorized users
-      blocks = buildWelcomeView();
+      
+      // Show welcome view for unauthorized users (instant)
+      const blocks = buildWelcomeView();
+      
+      await client.views.publish({
+        user_id: userId,
+        view: {
+          type: 'home',
+          blocks: blocks
+        }
+      });
+      
+      console.log(`Welcome view published for user: ${userId}`);
     }
-
-    // Make sure we have blocks
-    if (!blocks || blocks.length === 0) {
-      console.error('No blocks to display, using default welcome view');
-      blocks = buildWelcomeView();
-    }
-
-    // Publish the final view
-    await client.views.publish({
-      user_id: userId,
-      view: {
-        type: 'home',
-        blocks: blocks
-      }
-    });
     
-    console.log(`App Home published successfully for user: ${userId}`);
   } catch (error) {
     console.error('Error publishing App Home:', error);
     

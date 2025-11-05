@@ -8,12 +8,12 @@ const { getBotChannels } = require('../utils/channelUtils');
 /**
  * Build stats view blocks for App Home
  * @param {Object} client - Slack client
+ * @param {Array} botChannels - Optional pre-loaded bot channels
  * @returns {Array} Array of Slack blocks
  */
-async function buildStatsView(client) {
+async function buildStatsView(client, botChannels = null) {
   try {
     const stats = await getStats();
-    const botChannels = client ? await getBotChannels(client) : [];
     
     const blocks = [
       {
@@ -39,8 +39,8 @@ async function buildStatsView(client) {
       }
     ];
 
-    // Add bot channels section
-    if (botChannels.length > 0) {
+    // Add bot channels section if provided
+    if (botChannels && botChannels.length > 0) {
       blocks.push(
         {
           type: "section",
@@ -52,6 +52,23 @@ async function buildStatsView(client) {
             {
               type: "mrkdwn",
               text: `*🔐 Private:*\n${botChannels.filter(ch => ch.is_private).length}`
+            }
+          ]
+        }
+      );
+    } else if (botChannels === null) {
+      // Still loading
+      blocks.push(
+        {
+          type: "section",
+          fields: [
+            {
+              type: "mrkdwn",
+              text: `*📢 Bot Channels:*\n⏳ Loading...`
+            },
+            {
+              type: "mrkdwn",
+              text: `*🔐 Private:*\n⏳ Loading...`
             }
           ]
         }
@@ -186,7 +203,7 @@ async function buildStatsView(client) {
     });
 
     // Add bot channels list
-    if (botChannels.length > 0) {
+    if (botChannels && botChannels.length > 0) {
       blocks.push({
         type: "section",
         text: {
@@ -237,6 +254,19 @@ async function buildStatsView(client) {
         ]
       });
 
+      blocks.push({
+        type: "divider"
+      });
+    } else if (botChannels === null) {
+      // Still loading channels
+      blocks.push({
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "*📢 Bot is active in these channels:*\n\n⏳ Loading channel list..."
+        }
+      });
+      
       blocks.push({
         type: "divider"
       });
