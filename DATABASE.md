@@ -68,7 +68,6 @@ Statistics are only visible in the **App Home** tab and only for authorized user
 - **👥 Average Participants** - Average number of participants per spin
 - **📢 Bot Channels** - Complete list of all channels where the bot is installed
   - Shows channel name, member count, and privacy status (🔒 private / 📢 public)
-  - ⚠️ Warns if channel has >20 members (thread usage recommended)
 - **📈 Top 5 Channels** - Channels that use the bot most frequently
 - **🏆 Top 5 Most Active Users** - Users who invoke the bot most often
 - **🎯 Top 5 Most Selected Users** - Users who get selected most often

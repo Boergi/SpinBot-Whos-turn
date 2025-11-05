@@ -215,12 +215,11 @@ async function buildStatsView(client, botChannels = null) {
       // Sort channels by name
       const sortedChannels = [...botChannels].sort((a, b) => a.name.localeCompare(b.name));
       
-      // Show all channels (max 20 for reasonable display)
-      const channelsToShow = sortedChannels.slice(0, 20);
+      // Show all channels (max 30 for reasonable display)
+      const channelsToShow = sortedChannels.slice(0, 30);
       const channelsText = channelsToShow.map(ch => {
         const privacy = ch.is_private ? '🔒' : '📢';
-        const sizeWarning = ch.num_members > 20 ? ' ⚠️' : '';
-        return `${privacy} ${ch.name} (${ch.num_members} members)${sizeWarning}`;
+        return `${privacy} ${ch.name} (${ch.num_members} members)`;
       }).join('\n');
       
       blocks.push({
@@ -231,28 +230,17 @@ async function buildStatsView(client, botChannels = null) {
         }
       });
 
-      if (botChannels.length > 20) {
+      if (botChannels.length > 30) {
         blocks.push({
           type: "context",
           elements: [
             {
               type: "mrkdwn",
-              text: `_... and ${botChannels.length - 20} more channels_`
+              text: `_... and ${botChannels.length - 30} more channels_`
             }
           ]
         });
       }
-
-      // Add legend
-      blocks.push({
-        type: "context",
-        elements: [
-          {
-            type: "mrkdwn",
-            text: "⚠️ = Channel has >20 members (use threads for selection)"
-          }
-        ]
-      });
 
       blocks.push({
         type: "divider"

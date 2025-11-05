@@ -37,7 +37,7 @@ function buildWelcomeView() {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "1️⃣ Go to any channel where SpinBot is installed (max 20 members for channel mode)\n2️⃣ *Channel mode:* Mention directly in channel OR *Thread mode:* Reply in a thread\n3️⃣ Mention the bot with your task:"
+        text: "1️⃣ Go to any channel where SpinBot is installed\n2️⃣ *Channel mode:* Mention directly in channel OR *Thread mode:* Reply in a thread\n3️⃣ Mention the bot with your task:"
       }
     },
     {
@@ -68,7 +68,7 @@ function buildWelcomeView() {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "🧵 *Works in Threads*\nUse @mentions directly in any thread - slash commands don't work in threads!\n\n👍 *Reaction Support*\nUsers can participate by writing a message OR by reacting with 👍, ➕, or ✅ - perfect for quick polls!\n\n📢 *Works in Channels*\nMention the bot directly in a channel to select from all members (up to 20 members)!\n\n🌍 *Bilingual Support*\nUse \"who\" (English) or \"wer\" (German) - both work perfectly!\n\n🤖 *Fair Selection*\nThe bot will never select itself, only real users. Bots and deleted users are automatically excluded.\n\n🏖️ *Smart Status Filtering*\nIn channels, users with :palm_tree: (vacation), :face_with_thermometer: (sick), :kids: (parental leave), or :schule: (school) status are automatically excluded!\n\n❓ *Smart Cleanup*\n\"who/wer\" at the start and \"?\" at the end are automatically removed from the output."
+        text: "🧵 *Works in Threads*\nUse @mentions directly in any thread - slash commands don't work in threads!\n\n👍 *Reaction Support*\nUsers can participate by writing a message OR by reacting with 👍, ➕, or ✅ - perfect for quick polls!\n\n📢 *Works in Channels*\nMention the bot directly in a channel to select from all members - works with any channel size!\n\n🌍 *Bilingual Support*\nUse \"who\" (English) or \"wer\" (German) - both work perfectly!\n\n🤖 *Fair Selection*\nThe bot will never select itself, only real users. Bots and deleted users are automatically excluded.\n\n🏖️ *Smart Status Filtering*\nIn channels, users with :palm_tree: (vacation), :face_with_thermometer: (sick), :kids: (parental leave), or :schule: (school) status are automatically excluded!\n\n❓ *Smart Cleanup*\n\"who/wer\" at the start and \"?\" at the end are automatically removed from the output."
       }
     },
     {
@@ -119,7 +119,7 @@ function buildWelcomeView() {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "*Q: Why can't I use /spinbot in threads?*\nA: Slack doesn't support slash commands in threads. Use @SpinBot instead!\n\n*Q: Can the bot select itself?*\nA: No! The bot is automatically excluded from selection.\n\n*Q: Do I have to write a message to participate?*\nA: No! You can also just react with 👍, ➕, or ✅ to be included in the selection.\n\n*Q: How does status filtering work?*\nA: When mentioned directly in a channel (max 20 members), users with :palm_tree: (vacation), :face_with_thermometer: (sick), :kids: (parental leave), or :schule: (school/training) status are excluded. In threads, everyone is eligible.\n\n*Q: What's the difference between channel and thread mode?*\nA: Channel mode selects from all members (with status filtering, max 20 members). Thread mode selects from participants who wrote OR reacted (no limit, no filtering).\n\n*Q: Why max 20 members for channel mode?*\nA: To avoid API rate limits when checking user statuses. Use threads for larger channels!\n\n*Q: How random is the selection?*\nA: Completely random - everyone has an equal chance!"
+        text: "*Q: Why can't I use /spinbot in threads?*\nA: Slack doesn't support slash commands in threads. Use @SpinBot instead!\n\n*Q: Can the bot select itself?*\nA: No! The bot is automatically excluded from selection.\n\n*Q: Do I have to write a message to participate?*\nA: No! You can also just react with 👍, ➕, or ✅ to be included in the selection.\n\n*Q: How does status filtering work?*\nA: When mentioned directly in a channel, users with :palm_tree: (vacation), :face_with_thermometer: (sick), :kids: (parental leave), or :schule: (school/training) status are excluded. In threads, everyone is eligible.\n\n*Q: What's the difference between channel and thread mode?*\nA: Channel mode selects from all members (with status filtering). Thread mode selects from participants who wrote OR reacted (no filtering).\n\n*Q: Does it work with large channels?*\nA: Yes! No member limits - the bot works efficiently with channels of any size.\n\n*Q: How random is the selection?*\nA: Completely random - everyone has an equal chance!"
       }
     },
     {

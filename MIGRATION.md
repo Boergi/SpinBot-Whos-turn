@@ -67,10 +67,8 @@ npm start
 @SpinBot wer muss das nächste Meeting moderieren?
 ```
 
-### In Main Channel (Max 20 members)
-The `/spinbot` command still exists and `@SpinBot` also works directly in channels with up to 20 members.
-
-> ⚠️ **Note:** Channel-level selection (with status filtering) only works in channels with up to 20 members. For larger channels, use the bot in a thread instead.
+### In Main Channel
+The `/spinbot` command still exists and `@SpinBot` also works directly in channels of any size.
 
 The `/spinbot` command provides helpful instructions:
 ```
@@ -88,10 +86,11 @@ Response:
 | Feature | Old | New |
 |---------|-----|-----|
 | **In Threads** | ❌ `/spinbot` (not supported) | ✅ `@SpinBot` (works!) |
-| **In Channels** | ✅ `/spinbot` | ✅ `/spinbot` or `@SpinBot` (max 20 members) |
+| **In Channels** | ✅ `/spinbot` | ✅ `/spinbot` or `@SpinBot` (any size) |
 | **Required Scope** | `commands` | `app_mentions:read` + `commands` + `users:read` |
 | **Socket Mode** | Optional | Required (events via WebSocket) |
-| **Status Filtering** | ❌ Not available | ✅ Channel mode only (max 20 members) |
+| **Status Filtering** | ❌ Not available | ✅ Channel mode only |
+| **Reaction Support** | ❌ Not available | ✅ Thread mode (👍, ➕, ✅) |
 
 ## FAQ
 

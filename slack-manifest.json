@@ -3,7 +3,7 @@
         "name": "SpinBot",
         "description": "Randomly selects a user from a thread to decide who's turn it is. Use: @SpinBot who/wer has to...?",
         "background_color": "#4A154B",
-        "long_description": "SpinBot is a fun and fair way to randomly select a user from a Slack thread or channel. Perfect for deciding who has to pre-order lunch, get coffee, or take on any other task. Simply mention @SpinBot in a thread with your task description, and it will randomly pick someone from thread participants (including those who just reacted with 👍, ➕, or ✅). Also works in channels with up to 20 members for team-wide selection with smart status filtering."
+        "long_description": "SpinBot is a fun and fair way to randomly select a user from a Slack thread or channel. Perfect for deciding who has to pre-order lunch, get coffee, or take on any other task. Simply mention @SpinBot in a thread with your task description, and it will randomly pick someone from thread participants (including those who just reacted with 👍, ➕, or ✅). Also works in channels for team-wide selection with smart status filtering."
     },
     "features": {
         "app_home": {

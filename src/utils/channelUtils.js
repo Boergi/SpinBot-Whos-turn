@@ -165,7 +165,7 @@ async function getBotChannels(client) {
     let allChannels = [];
     let cursor = undefined;
     
-    // Use users.conversations to get only channels where bot is a member
+    // Step 1: Get all channels where bot is a member
     do {
       const result = await client.users.conversations({
         types: 'public_channel,private_channel',
@@ -182,26 +182,25 @@ async function getBotChannels(client) {
     
     console.log(`Found ${allChannels.length} total channels where bot is member`);
     
-    // Get member counts for each channel (count only humans, not bots)
+    // Step 2: Get all users once (for efficient bot/human filtering)
+    const usersMap = await getAllUsers(client);
+    
+    // Step 3: Get member counts for each channel (count only humans, not bots)
     const botChannels = [];
     for (const channel of allChannels) {
       try {
-        // Get members list to count only real users (not bots)
+        // Get members list
         const membersResult = await client.conversations.members({
           channel: channel.id,
         });
         
-        // Count only real users (filter out bots)
+        // Count only real users (filter out bots using the users map)
         let humanCount = 0;
         for (const memberId of membersResult.members || []) {
-          try {
-            const userInfo = await client.users.info({ user: memberId });
-            // Only count if it's not a bot and not deleted
-            if (!userInfo.user.is_bot && !userInfo.user.deleted) {
-              humanCount++;
-            }
-          } catch (userError) {
-            // If we can't get user info, assume it's a human
+          const user = usersMap.get(memberId);
+          
+          // Only count real humans (not bots, not deleted)
+          if (user && !user.is_bot && !user.deleted) {
             humanCount++;
           }
         }
@@ -216,12 +215,12 @@ async function getBotChannels(client) {
         console.log(`Channel ${channel.name}: ${humanCount} human members (${channel.is_private ? 'private' : 'public'})`);
       } catch (channelError) {
         console.error(`Error fetching members for channel ${channel.name}:`, channelError);
-        // Fallback to basic channel data
+        // Fallback to basic channel data without member count
         botChannels.push({
           id: channel.id,
           name: channel.name,
           is_private: channel.is_private || false,
-          num_members: channel.num_members || 0,
+          num_members: 0,
         });
       }
     }

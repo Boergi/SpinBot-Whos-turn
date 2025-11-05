@@ -11,7 +11,7 @@ A Slack bot that randomly selects a user from a thread to decide who has to perf
 - 🎯 Works in threads AND channels via @mentions
 - 🧵 Thread mode: Analyzes all thread participants (messages + reactions)
 - 👍 Reaction support: Users can participate by reacting with 👍, ➕, or ✅
-- 📢 Channel mode: Selects from all channel members (max 20 members)
+- 📢 Channel mode: Selects from all channel members
 - 🏖️ Smart status filtering: Excludes users on vacation, sick, etc.
 - 🎲 Randomly selects a user (excluding the bot itself)
 - 🔌 Uses WebSocket (Socket Mode) for real-time communication
@@ -41,7 +41,7 @@ or
 The bot selects randomly from **thread participants** - both users who wrote messages AND users who reacted with allowed emojis (👍, ➕, ✅).
 
 ### Directly in a Channel
-**Mention the bot directly in the channel (max 20 members):**
+**Mention the bot directly in the channel:**
 ```
 @SpinBot who moderates today's daily?
 ```
@@ -56,8 +56,6 @@ or
 ```
 
 The bot selects randomly from **all channel members** (excluding users with specific status emojis).
-
-> ⚠️ **Note:** Channel-level selection only works in channels with up to 20 members. For larger channels, use the bot in a thread instead.
 
 > 💡 **Note:** You can use "who" or "wer" at the beginning and add a "?" at the end - the bot will automatically clean it up for the output!
 
@@ -166,9 +164,6 @@ SpinBot tracks usage statistics in a MySQL database.
    # Optional: Exclude users with specific status emojis (channel-level only)
    EXCLUDED_STATUS_EMOJIS=:palm_tree:,:face_with_thermometer:,:kids:,:schule:
    
-   # Optional: Maximum channel size for channel-level selection (default: 20)
-   MAX_CHANNEL_SIZE=20
-   
    # Optional: Allowed reaction emojis for thread participation
    # Both :+1: and +1 work (colons are optional)
    # Note: Include all variants! 👍 can be :+1:, :plus1:, or :thumbsup:
@@ -177,7 +172,7 @@ SpinBot tracks usage statistics in a MySQL database.
    
    > 💡 To find a User ID: Right-click user → View Profile → More → Copy Member ID
    
-   > 💡 Status filtering only applies when using SpinBot directly in a channel with max 20 members. In threads, all participants are eligible.
+   > 💡 Status filtering only applies when using SpinBot directly in a channel. In threads, all participants are eligible.
 
 3. Run migrations to create tables:
    ```bash
