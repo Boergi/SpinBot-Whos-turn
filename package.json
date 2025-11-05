@@ -12,7 +12,7 @@
   },
   "keywords": ["slack", "bot", "random", "spinner"],
   "author": "",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
     "@slack/bolt": "^3.17.1",
     "dotenv": "^16.4.1",

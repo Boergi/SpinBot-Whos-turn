@@ -4,6 +4,8 @@ A Slack bot that randomly selects a user from a thread to decide who has to perf
 
 > 📣 **Important:** Use `@SpinBot` in threads, not `/spinbot`. Slack doesn't support slash commands in threads. See [MIGRATION.md](MIGRATION.md) if upgrading from an older version.
 
+> ⚖️ **License Notice:** This software is free for personal, educational, and internal business use. Commercial use, resale, or redistribution for profit is **NOT** permitted. See [LICENSE](LICENSE) for details.
+
 ## Features
 
 - 🎯 Works in threads AND channels via @mentions
@@ -266,5 +268,16 @@ See [DATABASE.md](DATABASE.md) for more details on tracked data and how to add a
 
 ## License
 
-MIT
+This project is licensed under a custom non-commercial license.
+
+**TL;DR:**
+- ✅ Free for personal, educational, and internal business use
+- ✅ You can modify it for your own needs
+- ✅ You can deploy it in your organization
+- ❌ You may NOT sell, resell, or commercialize it
+- ❌ No SaaS offerings or commercial redistribution
+
+See the [LICENSE](LICENSE) file for full details.
+
+For commercial licensing inquiries, please contact the copyright holders.
 

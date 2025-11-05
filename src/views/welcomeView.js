@@ -68,7 +68,7 @@ function buildWelcomeView() {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "🧵 *Works in Threads*\nUse @mentions directly in any thread - slash commands don't work in threads!\n\n🌍 *Bilingual Support*\nUse \"who\" (English) or \"wer\" (German) - both work perfectly!\n\n🤖 *Fair Selection*\nThe bot will never select itself, only real users from the thread.\n\n❓ *Smart Cleanup*\n\"who/wer\" at the start and \"?\" at the end are automatically removed from the output."
+        text: "🧵 *Works in Threads*\nUse @mentions directly in any thread - slash commands don't work in threads!\n\n📢 *Works in Channels*\nMention the bot directly in a channel to select from all members!\n\n🌍 *Bilingual Support*\nUse \"who\" (English) or \"wer\" (German) - both work perfectly!\n\n🤖 *Fair Selection*\nThe bot will never select itself, only real users.\n\n🏖️ *Smart Status Filtering*\nIn channels, users with :palm_tree: (vacation), :face_with_thermometer: (sick), or :kids: (parental leave) status are automatically excluded!\n\n❓ *Smart Cleanup*\n\"who/wer\" at the start and \"?\" at the end are automatically removed from the output."
       }
     },
     {
@@ -119,7 +119,7 @@ function buildWelcomeView() {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "*Q: Why can't I use /spinbot in threads?*\nA: Slack doesn't support slash commands in threads. Use @SpinBot instead!\n\n*Q: Can the bot select itself?*\nA: No! The bot is automatically excluded from selection.\n\n*Q: How random is the selection?*\nA: Completely random - everyone has an equal chance!\n\n*Q: Do I need to be in the thread?*\nA: Yes, only users who participated in the thread can be selected."
+        text: "*Q: Why can't I use /spinbot in threads?*\nA: Slack doesn't support slash commands in threads. Use @SpinBot instead!\n\n*Q: Can the bot select itself?*\nA: No! The bot is automatically excluded from selection.\n\n*Q: How does status filtering work?*\nA: When mentioned directly in a channel, users with :palm_tree: (vacation), :face_with_thermometer: (sick), or :kids: (parental leave) status are excluded. In threads, everyone is eligible.\n\n*Q: What's the difference between channel and thread mode?*\nA: Channel mode selects from all members (with status filtering). Thread mode selects only from thread participants (no filtering).\n\n*Q: How random is the selection?*\nA: Completely random - everyone has an equal chance!"
       }
     },
     {

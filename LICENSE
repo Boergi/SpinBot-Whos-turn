@@ -1,0 +1,94 @@
+SpinBot - Who's Turn? License
+Copyright (c) 2025 SpinBot Contributors
+
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+1. DEFINITIONS
+
+"Software" refers to the SpinBot - Who's Turn? application, including all source code, 
+documentation, and related materials.
+
+"You" (or "Your") means an individual or legal entity exercising permissions granted 
+by this License.
+
+"Commercial Use" means the use, distribution, or sale of the Software for monetary 
+gain or commercial advantage.
+
+2. GRANT OF LICENSE
+
+Subject to the terms and conditions of this License, You are hereby granted a 
+non-exclusive, non-transferable, worldwide license to:
+
+a) Use the Software for personal, educational, or internal business purposes
+b) Modify the Software for Your own use
+c) Deploy the Software within Your organization
+d) Study and learn from the source code
+
+3. RESTRICTIONS
+
+You may NOT:
+
+a) Sell, rent, lease, license, or otherwise commercialize the Software or any 
+   derivative works thereof
+b) Sublicense, distribute, or transfer the Software to third parties for commercial 
+   purposes
+c) Offer the Software as a service (SaaS) for monetary compensation
+d) Include the Software in any commercial product or service offering
+e) Remove or alter any copyright notices, trademarks, or attribution from the Software
+f) Use the Software in any manner that violates applicable laws or regulations
+
+4. ATTRIBUTION
+
+If You share modified versions of the Software (non-commercially), You must:
+
+a) Retain all copyright notices and attribution
+b) Clearly indicate that changes were made
+c) Include a copy of this License with any distribution
+d) Provide credit to the original authors
+
+5. CONTRIBUTIONS
+
+Any contributions intentionally submitted for inclusion in the Software shall be 
+under the terms of this License, without any additional terms or conditions.
+
+6. NO WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+7. LIMITATION OF LIABILITY
+
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY DIRECT, 
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+OF THE POSSIBILITY OF SUCH DAMAGE.
+
+8. TERMINATION
+
+This License and the rights granted hereunder will terminate automatically upon 
+any breach by You of the terms of this License. Upon termination, You must cease 
+all use of the Software and destroy all copies in Your possession or control.
+
+9. GOVERNING LAW
+
+This License shall be governed by and construed in accordance with the laws of 
+Germany, excluding its conflicts of law provisions.
+
+10. ACCEPTANCE
+
+By using, copying, modifying, or distributing the Software, You indicate Your 
+acceptance of this License and all its terms and conditions.
+
+---
+
+For commercial licensing inquiries, please contact the copyright holders.
+
+END OF LICENSE
+
