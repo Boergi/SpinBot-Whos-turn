@@ -30,19 +30,20 @@ When you use `@SpinBot` in a thread:
 Add to your `.env` file:
 
 ```env
-EXCLUDED_STATUS_EMOJIS=🏖️,🤒,🏠,🌴,✈️
+EXCLUDED_STATUS_EMOJIS=:palm_tree:,:face_with_thermometer:,:kids:,:schule:
 ```
 
 **Common examples:**
 - 🏖️ - Vacation/Holiday
 - 🤒 - Sick/Ill
+- 👶 - Parental leave
+- 🏫 - School/Training/Education
 - 🏠 - Working from home (if not available)
 - 🌴 - On holiday
 - ✈️ - Traveling
 - 🎄 - Christmas break
 - 🏥 - Medical leave
-- 👶 - Parental leave
-- 📚 - Training/Conference
+- 📚 - Conference/Course
 
 ### How Emojis Are Matched
 
@@ -131,6 +132,8 @@ Encourage your team to use consistent emojis:
 Use these status emojis:
 🏖️ - Vacation
 🤒 - Sick day
+👶 - Parental leave
+🏫 - School/Training
 🏠 - WFH (unavailable for meetings)
 ✈️ - Business travel
 ```
@@ -212,12 +215,12 @@ Use SpinBot in a thread instead of directly in the channel. Thread mode has no m
 
 **Development:**
 ```env
-EXCLUDED_STATUS_EMOJIS=🏖️,🤒
+EXCLUDED_STATUS_EMOJIS=:palm_tree:,:face_with_thermometer:
 ```
 
 **Production:**
 ```env
-EXCLUDED_STATUS_EMOJIS=🏖️,🤒,🏠,🌴,✈️,🎄,🏥,👶
+EXCLUDED_STATUS_EMOJIS=:palm_tree:,:face_with_thermometer:,:kids:,:schule:,:house:,:airplane:
 ```
 
 ### Testing
