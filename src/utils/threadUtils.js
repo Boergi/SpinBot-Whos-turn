@@ -3,6 +3,20 @@
  */
 
 /**
+ * Get allowed reaction emojis from environment
+ * @returns {Array} Array of emoji names (without colons)
+ */
+function getAllowedReactionEmojis() {
+  const emojis = (process.env.ALLOWED_REACTION_EMOJIS || '')
+    .split(',')
+    .map(emoji => emoji.trim())
+    .map(emoji => emoji.replace(/^:/, '').replace(/:$/, '')) // Remove leading/trailing colons
+    .filter(emoji => emoji.length > 0);
+  
+  return emojis;
+}
+
+/**
  * Fetches all messages from a thread
  * @param {Object} client - Slack client
  * @param {string} channel - The channel ID
@@ -23,7 +37,7 @@ async function getThreadMessages(client, channel, threadTs) {
 }
 
 /**
- * Extracts all unique user IDs from thread messages (excluding bots)
+ * Extracts all unique user IDs from thread messages and reactions (excluding bots)
  * @param {Object} client - Slack client
  * @param {Array} messages - Array of Slack messages
  * @param {Map} usersMap - Optional map of all users (for efficiency)
@@ -31,6 +45,7 @@ async function getThreadMessages(client, channel, threadTs) {
  */
 async function extractUniqueUsers(client, messages, usersMap = null) {
   const userIds = new Set();
+  const allowedReactions = getAllowedReactionEmojis();
   
   messages.forEach(message => {
     // Regular messages have a user property
@@ -38,7 +53,34 @@ async function extractUniqueUsers(client, messages, usersMap = null) {
       // Only add if message doesn't have bot_id (bot messages can have user property)
       userIds.add(message.user);
     }
+    
+    // Log ALL reactions to see what Slack returns
+    if (message.reactions) {
+      console.log(`📝 Message has ${message.reactions.length} reaction(s):`);
+      message.reactions.forEach(reaction => {
+        console.log(`  - :${reaction.name}: (${reaction.count} reactions, ${reaction.users?.length || 0} users)`);
+      });
+    }
+    
+    // Check reactions if configured
+    if (allowedReactions.length > 0 && message.reactions) {
+      message.reactions.forEach(reaction => {
+        // Check if this reaction emoji is allowed
+        if (allowedReactions.includes(reaction.name)) {
+          // Add all users who reacted with this emoji
+          reaction.users?.forEach(userId => {
+            userIds.add(userId);
+          });
+          console.log(`✅ Counted ${reaction.users?.length || 0} users with :${reaction.name}: reaction (ALLOWED)`);
+        } else {
+          console.log(`❌ Ignored :${reaction.name}: reaction (NOT in allowed list)`);
+        }
+      });
+    }
   });
+  
+  console.log(`\n📊 Summary: Found ${userIds.size} unique participants (messages + reactions)`);
+  console.log(`🔍 Allowed reaction emojis: [${allowedReactions.join(', ')}]\n`);
   
   // Get users map if not provided
   if (!usersMap) {
@@ -81,5 +123,6 @@ module.exports = {
   getThreadMessages,
   extractUniqueUsers,
   selectRandomUser,
+  getAllowedReactionEmojis,
 };
 

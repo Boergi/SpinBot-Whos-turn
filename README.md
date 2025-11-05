@@ -37,7 +37,7 @@ or
 🎲 @Username has to pre-order lunch
 ```
 
-The bot selects randomly from **thread participants**.
+The bot selects randomly from **thread participants** - both users who wrote messages AND users who reacted with allowed emojis (👍, ➕, ✅).
 
 ### Directly in a Channel
 **Mention the bot directly in the channel (max 20 members):**
@@ -165,6 +165,11 @@ SpinBot tracks usage statistics in a MySQL database.
    
    # Optional: Maximum channel size for channel-level selection (default: 20)
    MAX_CHANNEL_SIZE=20
+   
+   # Optional: Allowed reaction emojis for thread participation
+   # Both :+1: and +1 work (colons are optional)
+   # Note: Include all variants! 👍 can be :+1:, :plus1:, or :thumbsup:
+   ALLOWED_REACTION_EMOJIS=:+1:,:plus1:,:thumbsup:,:plus-1:,:heavy_plus_sign:
    ```
    
    > 💡 To find a User ID: Right-click user → View Profile → More → Copy Member ID

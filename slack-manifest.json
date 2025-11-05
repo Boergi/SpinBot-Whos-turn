@@ -27,6 +27,7 @@
         "groups:history",
         "groups:read",
         "users:read",
+        "reactions:read",
         "users.profile:read"
       ]
     }
