@@ -107,10 +107,30 @@ A: No, the same tokens work for both approaches.
 ### Q: Will old `/spinbot` commands break?
 A: No, they still work in main channels. In threads, they show helpful migration instructions.
 
+## New Features
+
+### Reaction Support (Optional)
+Users can now participate by reacting with emojis instead of writing messages! Configure in `.env`:
+
+```env
+ALLOWED_REACTION_EMOJIS=:+1:,:plus1:,:thumbsup:,:plus-1:,:heavy_plus_sign:
+```
+
+**Example:**
+```
+Thread: "Who wants to order lunch?"
+- Alice: "I want a sandwich" ✅
+- Bob reacts with 👍 ✅
+- Charlie reacts with ➕ ✅
+
+→ Bot selects from: Alice, Bob, Charlie
+```
+
 ## Benefits of the New Approach
 
 ✅ **Works in threads** - The main use case for SpinBot  
 ✅ **More natural** - @mentioning feels more conversational  
+✅ **Reaction support** - Quick participation without typing  
 ✅ **Backward compatible** - `/spinbot` still works in channels  
 ✅ **Better UX** - Users see helpful tips if they use the wrong command  
 

@@ -9,7 +9,8 @@ A Slack bot that randomly selects a user from a thread to decide who has to perf
 ## Features
 
 - 🎯 Works in threads AND channels via @mentions
-- 🧵 Thread mode: Analyzes all thread participants
+- 🧵 Thread mode: Analyzes all thread participants (messages + reactions)
+- 👍 Reaction support: Users can participate by reacting with 👍, ➕, or ✅
 - 📢 Channel mode: Selects from all channel members (max 20 members)
 - 🏖️ Smart status filtering: Excludes users on vacation, sick, etc.
 - 🎲 Randomly selects a user (excluding the bot itself)
@@ -59,6 +60,8 @@ The bot selects randomly from **all channel members** (excluding users with spec
 > ⚠️ **Note:** Channel-level selection only works in channels with up to 20 members. For larger channels, use the bot in a thread instead.
 
 > 💡 **Note:** You can use "who" or "wer" at the beginning and add a "?" at the end - the bot will automatically clean it up for the output!
+
+> 👍 **Tip:** Users can participate by reacting with 👍, ➕, or ✅ instead of writing a message! See [REACTIONS.md](REACTIONS.md) for details.
 
 ## Setup
 

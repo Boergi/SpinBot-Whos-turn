@@ -117,6 +117,14 @@ To get User IDs: Right-click on user → View Profile → More → Copy Member I
 
 Status filtering only works when mentioning the bot directly in a channel with max 20 members. See [STATUS_FILTERING.md](STATUS_FILTERING.md) for details.
 
+**Reaction Emojis:**
+```env
+# Allowed Reaction Emojis for thread participation (comma-separated)
+ALLOWED_REACTION_EMOJIS=:+1:,:plus1:,:thumbsup:,:plus-1:,:heavy_plus_sign:
+```
+
+Users can participate in threads by writing a message OR by reacting with these emojis. This is useful for scenarios like "Who wants to order lunch?" where people can just react with 👍 instead of writing a message.
+
 3. Run migrations:
 ```bash
 npm run migrate
