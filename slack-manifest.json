@@ -1,40 +1,41 @@
 {
-  "display_information": {
-    "name": "SpinBot",
-    "description": "Randomly selects a user from a thread to decide who's turn it is. Use: @SpinBot who/wer has to...?",
-    "background_color": "#4A154B",
-    "long_description": "SpinBot is a fun and fair way to randomly select a user from a Slack thread. Perfect for deciding who has to pre-order lunch, get coffee, or take on any other task. Simply use the /spinbot command in a thread with a task description, and the bot will randomly pick someone from the thread participants."
-  },
-  "features": {
-    "app_home": {
-      "home_tab_enabled": true,
-      "messages_tab_enabled": false,
-      "messages_tab_read_only_enabled": false
+    "display_information": {
+        "name": "SpinBot",
+        "description": "Randomly selects a user from a thread to decide who's turn it is. Use: @SpinBot who/wer has to...?",
+        "background_color": "#4A154B",
+        "long_description": "SpinBot is a fun and fair way to randomly select a user from a Slack thread or channel. Perfect for deciding who has to pre-order lunch, get coffee, or take on any other task. Simply mention @SpinBot in a thread with your task description, and it will randomly pick someone from thread participants (including those who just reacted with 👍, ➕, or ✅). Also works in channels with up to 20 members for team-wide selection with smart status filtering."
     },
-    "bot_user": {
-      "display_name": "SpinBot",
-      "always_online": true
-    }
-  },
-  "oauth_config": {
-    "scopes": {
-      "bot": [
-        "app_mentions:read",
-        "channels:history",
-        "channels:read",
-        "chat:write",
-        "commands",
-        "groups:history",
-        "groups:read",
-        "users:read",
-        "reactions:read",
-        "users.profile:read"
-      ]
-    }
-  },
-  "settings": {
+    "features": {
+        "app_home": {
+            "home_tab_enabled": true,
+            "messages_tab_enabled": false,
+            "messages_tab_read_only_enabled": false
+        },
+        "bot_user": {
+            "display_name": "SpinBot",
+            "always_online": true
+        }
+    },
+    "oauth_config": {
+        "scopes": {
+            "bot": [
+                "app_mentions:read",
+                "channels:history",
+                "channels:read",
+                "chat:write",
+                "commands",
+                "groups:history",
+                "groups:read",
+                "users.profile:read",
+                "users:read",
+                "reactions:read"
+            ]
+        }
+    },
+    "settings": {
         "event_subscriptions": {
             "bot_events": [
+                "app_home_opened",
                 "app_mention"
             ]
         },
@@ -46,4 +47,3 @@
         "token_rotation_enabled": false
     }
 }
-
