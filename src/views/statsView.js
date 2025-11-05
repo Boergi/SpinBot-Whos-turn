@@ -203,7 +203,7 @@ async function buildStatsView(client) {
       const channelsText = channelsToShow.map(ch => {
         const privacy = ch.is_private ? '🔒' : '📢';
         const sizeWarning = ch.num_members > 20 ? ' ⚠️' : '';
-        return `${privacy} #${ch.name} (${ch.num_members} members)${sizeWarning}`;
+        return `${privacy} ${ch.name} (${ch.num_members} members)${sizeWarning}`;
       }).join('\n');
       
       blocks.push({

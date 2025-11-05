@@ -91,10 +91,10 @@ async function handleAppMention({ event, say, client, context }) {
         return;
       }
 
-      // Extract all unique users (excluding the bot itself)
-      users = extractUniqueUsers(messages);
+      // Extract all unique users (excluding bots and deleted users)
+      users = await extractUniqueUsers(client, messages);
       
-      // Remove the bot from the list of potential users
+      // Remove the bot from the list of potential users (extra safety)
       users = users.filter(userId => userId !== botUserId);
 
       if (users.length === 0) {

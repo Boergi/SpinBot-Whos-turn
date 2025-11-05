@@ -72,7 +72,33 @@ function getExcludedEmojis() {
 }
 
 /**
- * Filter users by their status - exclude users with specific status emojis
+ * Get all users with their profiles (cached)
+ * @param {Object} client - Slack client
+ * @returns {Map} Map of userId -> user object with profile
+ */
+async function getAllUsers(client) {
+  const usersMap = new Map();
+  let cursor = undefined;
+  
+  do {
+    const result = await client.users.list({
+      limit: 200,
+      cursor: cursor,
+    });
+    
+    for (const user of result.members || []) {
+      usersMap.set(user.id, user);
+    }
+    
+    cursor = result.response_metadata?.next_cursor;
+  } while (cursor);
+  
+  console.log(`Loaded ${usersMap.size} users with profiles`);
+  return usersMap;
+}
+
+/**
+ * Filter users by their status - exclude users with specific status emojis and bots
  * @param {Object} client - Slack client
  * @param {Array} userIds - Array of user IDs
  * @param {string} botUserId - Bot's user ID to exclude
@@ -80,34 +106,49 @@ function getExcludedEmojis() {
  */
 async function filterUsersByStatus(client, userIds, botUserId) {
   const excludedEmojis = getExcludedEmojis();
-  
-  // If no excluded emojis configured, just filter out bot
-  if (excludedEmojis.length === 0) {
-    return userIds.filter(id => id !== botUserId);
-  }
-
   const filteredUsers = [];
   
+  // Get all users with profiles in one batch
+  const usersMap = await getAllUsers(client);
+  
   for (const userId of userIds) {
-    // Skip bot
+    // Skip the bot itself
     if (userId === botUserId) {
       continue;
     }
 
-    // Get user status
-    const status = await getUserStatus(client, userId);
+    // Get user from map
+    const user = usersMap.get(userId);
+    if (!user) {
+      console.log(`User ${userId} not found in workspace`);
+      continue;
+    }
+    
+    // Skip bots and deleted users
+    if (user.is_bot || user.deleted) {
+      console.log(`User ${userId} excluded (bot: ${user.is_bot}, deleted: ${user.deleted})`);
+      continue;
+    }
+
+    // If no excluded emojis configured, user is valid
+    if (excludedEmojis.length === 0) {
+      filteredUsers.push(userId);
+      continue;
+    }
+
+    // Check status from profile
+    const statusEmoji = user.profile?.status_emoji || '';
+    const statusText = user.profile?.status_text || '';
     
     // Check if status emoji matches any excluded emoji
     const hasExcludedStatus = excludedEmojis.some(excludedEmoji => {
-      // Check both status_emoji and if emoji appears in status_text
-      return status.statusEmoji.includes(excludedEmoji) || 
-             status.statusText.includes(excludedEmoji);
+      return statusEmoji.includes(excludedEmoji) || statusText.includes(excludedEmoji);
     });
 
     if (!hasExcludedStatus) {
       filteredUsers.push(userId);
     } else {
-      console.log(`User ${userId} excluded due to status: ${status.statusEmoji} ${status.statusText}`);
+      console.log(`User ${userId} excluded due to status: ${statusEmoji} ${statusText}`);
     }
   }
 
@@ -121,41 +162,71 @@ async function filterUsersByStatus(client, userIds, botUserId) {
  */
 async function getBotChannels(client) {
   try {
-    const result = await client.conversations.list({
-      types: 'public_channel,private_channel',
-      exclude_archived: true,
-      limit: 200,
-    });
+    let allChannels = [];
+    let cursor = undefined;
     
-    // Filter only channels where bot is a member and get accurate member counts
+    // Use users.conversations to get only channels where bot is a member
+    do {
+      const result = await client.users.conversations({
+        types: 'public_channel,private_channel',
+        exclude_archived: true,
+        limit: 200,
+        cursor: cursor,
+      });
+      
+      allChannels = allChannels.concat(result.channels || []);
+      cursor = result.response_metadata?.next_cursor;
+      
+      console.log(`Fetched ${result.channels?.length || 0} bot channels, cursor: ${cursor ? 'has more' : 'done'}`);
+    } while (cursor);
+    
+    console.log(`Found ${allChannels.length} total channels where bot is member`);
+    
+    // Get member counts for each channel (count only humans, not bots)
     const botChannels = [];
-    for (const channel of result.channels || []) {
-      if (channel.is_member) {
-        try {
-          // Get accurate channel info including member count
-          const channelInfo = await client.conversations.info({
-            channel: channel.id,
-          });
-          
-          botChannels.push({
-            id: channel.id,
-            name: channel.name,
-            is_private: channel.is_private || false,
-            num_members: channelInfo.channel.num_members || 0,
-          });
-        } catch (infoError) {
-          console.error(`Error fetching info for channel ${channel.name}:`, infoError);
-          // Fallback to basic info if conversations.info fails
-          botChannels.push({
-            id: channel.id,
-            name: channel.name,
-            is_private: channel.is_private || false,
-            num_members: channel.num_members || 0,
-          });
+    for (const channel of allChannels) {
+      try {
+        // Get members list to count only real users (not bots)
+        const membersResult = await client.conversations.members({
+          channel: channel.id,
+        });
+        
+        // Count only real users (filter out bots)
+        let humanCount = 0;
+        for (const memberId of membersResult.members || []) {
+          try {
+            const userInfo = await client.users.info({ user: memberId });
+            // Only count if it's not a bot and not deleted
+            if (!userInfo.user.is_bot && !userInfo.user.deleted) {
+              humanCount++;
+            }
+          } catch (userError) {
+            // If we can't get user info, assume it's a human
+            humanCount++;
+          }
         }
+        
+        botChannels.push({
+          id: channel.id,
+          name: channel.name,
+          is_private: channel.is_private || false,
+          num_members: humanCount,
+        });
+        
+        console.log(`Channel ${channel.name}: ${humanCount} human members (${channel.is_private ? 'private' : 'public'})`);
+      } catch (channelError) {
+        console.error(`Error fetching members for channel ${channel.name}:`, channelError);
+        // Fallback to basic channel data
+        botChannels.push({
+          id: channel.id,
+          name: channel.name,
+          is_private: channel.is_private || false,
+          num_members: channel.num_members || 0,
+        });
       }
     }
     
+    console.log(`Processed ${botChannels.length} channels`);
     return botChannels;
   } catch (error) {
     console.error('Error fetching bot channels:', error);
@@ -171,5 +242,6 @@ module.exports = {
   getMaxChannelSize,
   isChannelSizeValid,
   getBotChannels,
+  getAllUsers,
 };
 
