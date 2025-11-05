@@ -64,12 +64,15 @@ Statistics are only visible in the **App Home** tab and only for authorized user
 3. View comprehensive statistics (if authorized)
 
 **Shown statistics:**
-- Total number of spins
-- Average participants per spin
-- Top 5 most active channels
-- Top 5 most active users
-- Top 5 most selected users
-- Usage over the last 7 days
+- **📊 Total Spins** - Total number of times the bot was used
+- **👥 Average Participants** - Average number of participants per spin
+- **📢 Bot Channels** - Complete list of all channels where the bot is installed
+  - Shows channel name, member count, and privacy status (🔒 private / 📢 public)
+  - ⚠️ Warns if channel has >20 members (thread usage recommended)
+- **📈 Top 5 Channels** - Channels that use the bot most frequently
+- **🏆 Top 5 Most Active Users** - Users who invoke the bot most often
+- **🎯 Top 5 Most Selected Users** - Users who get selected most often
+- **📅 Last 7 Days** - Daily usage breakdown
 
 ### Authorizing Users
 

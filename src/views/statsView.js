@@ -3,14 +3,17 @@
  */
 
 const { getStats } = require('../../stats');
+const { getBotChannels } = require('../utils/channelUtils');
 
 /**
  * Build stats view blocks for App Home
+ * @param {Object} client - Slack client
  * @returns {Array} Array of Slack blocks
  */
-async function buildStatsView() {
+async function buildStatsView(client) {
   try {
     const stats = await getStats();
+    const botChannels = client ? await getBotChannels(client) : [];
     
     const blocks = [
       {
@@ -35,6 +38,25 @@ async function buildStatsView() {
         ]
       }
     ];
+
+    // Add bot channels section
+    if (botChannels.length > 0) {
+      blocks.push(
+        {
+          type: "section",
+          fields: [
+            {
+              type: "mrkdwn",
+              text: `*📢 Bot Channels:*\n${botChannels.length} channel${botChannels.length !== 1 ? 's' : ''}`
+            },
+            {
+              type: "mrkdwn",
+              text: `*🔐 Private:*\n${botChannels.filter(ch => ch.is_private).length}`
+            }
+          ]
+        }
+      );
+    }
 
     // Show info message if no data yet
     if (!stats.total || stats.total === 0) {
@@ -162,6 +184,63 @@ async function buildStatsView() {
     blocks.push({
       type: "divider"
     });
+
+    // Add bot channels list
+    if (botChannels.length > 0) {
+      blocks.push({
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "*📢 Bot is active in these channels:*"
+        }
+      });
+
+      // Sort channels by name
+      const sortedChannels = [...botChannels].sort((a, b) => a.name.localeCompare(b.name));
+      
+      // Show all channels (max 20 for reasonable display)
+      const channelsToShow = sortedChannels.slice(0, 20);
+      const channelsText = channelsToShow.map(ch => {
+        const privacy = ch.is_private ? '🔒' : '📢';
+        const sizeWarning = ch.num_members > 20 ? ' ⚠️' : '';
+        return `${privacy} #${ch.name} (${ch.num_members} members)${sizeWarning}`;
+      }).join('\n');
+      
+      blocks.push({
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: channelsText
+        }
+      });
+
+      if (botChannels.length > 20) {
+        blocks.push({
+          type: "context",
+          elements: [
+            {
+              type: "mrkdwn",
+              text: `_... and ${botChannels.length - 20} more channels_`
+            }
+          ]
+        });
+      }
+
+      // Add legend
+      blocks.push({
+        type: "context",
+        elements: [
+          {
+            type: "mrkdwn",
+            text: "⚠️ = Channel has >20 members (use threads for selection)"
+          }
+        ]
+      });
+
+      blocks.push({
+        type: "divider"
+      });
+    }
 
     // Add usage over time
     blocks.push({

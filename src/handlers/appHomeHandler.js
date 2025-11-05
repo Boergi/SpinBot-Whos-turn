@@ -19,7 +19,7 @@ async function handleAppHomeOpened({ event, client }) {
     // Check if user is authorized to view stats
     if (isAuthorizedUser(userId)) {
       console.log(`User ${userId} is authorized - showing stats`);
-      blocks = await buildStatsView();
+      blocks = await buildStatsView(client);
     } else {
       console.log(`User ${userId} is not authorized - showing welcome screen`);
       // Show welcome view for unauthorized users

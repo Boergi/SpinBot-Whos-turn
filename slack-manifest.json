@@ -25,6 +25,7 @@
         "chat:write",
         "commands",
         "groups:history",
+        "groups:read",
         "users:read",
         "users.profile:read"
       ]

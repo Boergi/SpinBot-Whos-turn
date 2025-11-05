@@ -114,6 +114,39 @@ async function filterUsersByStatus(client, userIds, botUserId) {
   return filteredUsers;
 }
 
+/**
+ * Get all channels where the bot is a member
+ * @param {Object} client - Slack client
+ * @returns {Array} Array of channel objects with id and name
+ */
+async function getBotChannels(client) {
+  try {
+    const result = await client.conversations.list({
+      types: 'public_channel,private_channel',
+      exclude_archived: true,
+      limit: 200,
+    });
+    
+    // Filter only channels where bot is a member
+    const botChannels = [];
+    for (const channel of result.channels || []) {
+      if (channel.is_member) {
+        botChannels.push({
+          id: channel.id,
+          name: channel.name,
+          is_private: channel.is_private || false,
+          num_members: channel.num_members || 0,
+        });
+      }
+    }
+    
+    return botChannels;
+  } catch (error) {
+    console.error('Error fetching bot channels:', error);
+    return [];
+  }
+}
+
 module.exports = {
   getChannelMembers,
   getUserStatus,
@@ -121,5 +154,6 @@ module.exports = {
   filterUsersByStatus,
   getMaxChannelSize,
   isChannelSizeValid,
+  getBotChannels,
 };
 

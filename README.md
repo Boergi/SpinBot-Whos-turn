@@ -94,11 +94,13 @@ The bot selects randomly from **all channel members** (excluding users with spec
 2. Add the following **Bot Token Scopes**:
    - `app_mentions:read` - To receive @mentions
    - `channels:history` - To read thread messages
-   - `channels:read` - To get channel members
+   - `channels:read` - To get channel info and list channels
    - `chat:write` - To send messages
    - `commands` - To receive slash commands
    - `groups:history` - To read thread messages in private channels
+   - `groups:read` - To list private channels
    - `users:read` - To read user profiles and status
+   - `users.profile:read` - To read user status emojis
 
 ### 4. Create Slash Command
 

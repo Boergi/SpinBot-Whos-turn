@@ -43,13 +43,15 @@ npm install
 1. Left Menu → **"OAuth & Permissions"**
 2. Scroll to **"Scopes"** → **"Bot Token Scopes"**
 3. Add:
-   - `app_mentions:read`
-   - `channels:history`
-   - `channels:read`
-   - `chat:write`
-   - `commands`
-   - `groups:history`
-   - `users:read`
+   - `app_mentions:read` - To receive @mentions
+   - `channels:history` - To read thread messages
+   - `channels:read` - To access channel info and list channels
+   - `chat:write` - To send messages
+   - `commands` - To use slash commands
+   - `groups:history` - For private channels (history)
+   - `groups:read` - To list private channels
+   - `users:read` - To access user profiles (for status filtering)
+   - `users.profile:read` - To read user status emojis
 
 #### 2.4 Slash Command
 1. Left Menu → **"Slash Commands"**
