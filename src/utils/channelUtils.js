@@ -127,16 +127,32 @@ async function getBotChannels(client) {
       limit: 200,
     });
     
-    // Filter only channels where bot is a member
+    // Filter only channels where bot is a member and get accurate member counts
     const botChannels = [];
     for (const channel of result.channels || []) {
       if (channel.is_member) {
-        botChannels.push({
-          id: channel.id,
-          name: channel.name,
-          is_private: channel.is_private || false,
-          num_members: channel.num_members || 0,
-        });
+        try {
+          // Get accurate channel info including member count
+          const channelInfo = await client.conversations.info({
+            channel: channel.id,
+          });
+          
+          botChannels.push({
+            id: channel.id,
+            name: channel.name,
+            is_private: channel.is_private || false,
+            num_members: channelInfo.channel.num_members || 0,
+          });
+        } catch (infoError) {
+          console.error(`Error fetching info for channel ${channel.name}:`, infoError);
+          // Fallback to basic info if conversations.info fails
+          botChannels.push({
+            id: channel.id,
+            name: channel.name,
+            is_private: channel.is_private || false,
+            num_members: channel.num_members || 0,
+          });
+        }
       }
     }
     
