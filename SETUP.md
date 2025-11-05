@@ -105,12 +105,15 @@ DB_NAME=spinbot
 AUTHORIZED_STATS_USERS=U12345678,U87654321
 
 # Exclude users with specific status emojis (channel-level only)
-EXCLUDED_STATUS_EMOJIS=🏖️,🤒,🏠,🌴,✈️
+EXCLUDED_STATUS_EMOJIS=:palm_tree:,:face_with_thermometer:,:kids:
+
+# Maximum channel size for channel-level selection (default: 20)
+MAX_CHANNEL_SIZE=20
 ```
 
 To get User IDs: Right-click on user → View Profile → More → Copy Member ID
 
-Status filtering only works when mentioning the bot directly in a channel. See [STATUS_FILTERING.md](STATUS_FILTERING.md) for details.
+Status filtering only works when mentioning the bot directly in a channel with max 20 members. See [STATUS_FILTERING.md](STATUS_FILTERING.md) for details.
 
 3. Run migrations:
 ```bash

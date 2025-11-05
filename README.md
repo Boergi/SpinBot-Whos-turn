@@ -10,7 +10,7 @@ A Slack bot that randomly selects a user from a thread to decide who has to perf
 
 - 🎯 Works in threads AND channels via @mentions
 - 🧵 Thread mode: Analyzes all thread participants
-- 📢 Channel mode: Selects from all channel members
+- 📢 Channel mode: Selects from all channel members (max 20 members)
 - 🏖️ Smart status filtering: Excludes users on vacation, sick, etc.
 - 🎲 Randomly selects a user (excluding the bot itself)
 - 🔌 Uses WebSocket (Socket Mode) for real-time communication
@@ -40,7 +40,7 @@ or
 The bot selects randomly from **thread participants**.
 
 ### Directly in a Channel
-**Mention the bot directly in the channel:**
+**Mention the bot directly in the channel (max 20 members):**
 ```
 @SpinBot who moderates today's daily?
 ```
@@ -55,6 +55,8 @@ or
 ```
 
 The bot selects randomly from **all channel members** (excluding users with specific status emojis).
+
+> ⚠️ **Note:** Channel-level selection only works in channels with up to 20 members. For larger channels, use the bot in a thread instead.
 
 > 💡 **Note:** You can use "who" or "wer" at the beginning and add a "?" at the end - the bot will automatically clean it up for the output!
 
@@ -157,12 +159,15 @@ SpinBot tracks usage statistics in a MySQL database.
    AUTHORIZED_STATS_USERS=U12345678,U87654321
    
    # Optional: Exclude users with specific status emojis (channel-level only)
-   EXCLUDED_STATUS_EMOJIS=🏖️,🤒,🏠,🌴,✈️
+   EXCLUDED_STATUS_EMOJIS=:palm_tree:,:face_with_thermometer:,:kids:
+   
+   # Optional: Maximum channel size for channel-level selection (default: 20)
+   MAX_CHANNEL_SIZE=20
    ```
    
    > 💡 To find a User ID: Right-click user → View Profile → More → Copy Member ID
    
-   > 💡 Status filtering only applies when using SpinBot directly in a channel. In threads, all participants are eligible.
+   > 💡 Status filtering only applies when using SpinBot directly in a channel with max 20 members. In threads, all participants are eligible.
 
 3. Run migrations to create tables:
    ```bash

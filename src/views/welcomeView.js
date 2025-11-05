@@ -37,7 +37,7 @@ function buildWelcomeView() {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "1️⃣ Go to any channel where SpinBot is installed\n2️⃣ Create a message or reply to an existing thread\n3️⃣ Make sure multiple people have participated in the thread\n4️⃣ Mention the bot with your task:"
+        text: "1️⃣ Go to any channel where SpinBot is installed (max 20 members for channel mode)\n2️⃣ *Channel mode:* Mention directly in channel OR *Thread mode:* Reply in a thread\n3️⃣ Mention the bot with your task:"
       }
     },
     {
@@ -119,7 +119,7 @@ function buildWelcomeView() {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "*Q: Why can't I use /spinbot in threads?*\nA: Slack doesn't support slash commands in threads. Use @SpinBot instead!\n\n*Q: Can the bot select itself?*\nA: No! The bot is automatically excluded from selection.\n\n*Q: How does status filtering work?*\nA: When mentioned directly in a channel, users with :palm_tree: (vacation), :face_with_thermometer: (sick), or :kids: (parental leave) status are excluded. In threads, everyone is eligible.\n\n*Q: What's the difference between channel and thread mode?*\nA: Channel mode selects from all members (with status filtering). Thread mode selects only from thread participants (no filtering).\n\n*Q: How random is the selection?*\nA: Completely random - everyone has an equal chance!"
+        text: "*Q: Why can't I use /spinbot in threads?*\nA: Slack doesn't support slash commands in threads. Use @SpinBot instead!\n\n*Q: Can the bot select itself?*\nA: No! The bot is automatically excluded from selection.\n\n*Q: How does status filtering work?*\nA: When mentioned directly in a channel (max 20 members), users with :palm_tree: (vacation), :face_with_thermometer: (sick), or :kids: (parental leave) status are excluded. In threads, everyone is eligible.\n\n*Q: What's the difference between channel and thread mode?*\nA: Channel mode selects from all members (with status filtering, max 20 members). Thread mode selects only from thread participants (no limit, no filtering).\n\n*Q: Why max 20 members for channel mode?*\nA: To avoid API rate limits when checking user statuses. Use threads for larger channels!\n\n*Q: How random is the selection?*\nA: Completely random - everyone has an equal chance!"
       }
     },
     {

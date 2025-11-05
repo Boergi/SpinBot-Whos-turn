@@ -3,7 +3,7 @@
  */
 
 const { getThreadMessages, extractUniqueUsers, selectRandomUser } = require('../utils/threadUtils');
-const { getChannelMembers, filterUsersByStatus } = require('../utils/channelUtils');
+const { getChannelMembers, filterUsersByStatus, isChannelSizeValid, getMaxChannelSize } = require('../utils/channelUtils');
 const { logUsage } = require('../database/usageLogger');
 
 /**
@@ -48,6 +48,16 @@ async function handleAppMention({ event, say, client, context }) {
       if (channelMembers.length === 0) {
         await say({
           text: '❌ Could not fetch channel members.',
+          thread_ts: threadTs,
+        });
+        return;
+      }
+
+      // Check if channel is too large for status filtering
+      if (!isChannelSizeValid(channelMembers.length)) {
+        const maxSize = getMaxChannelSize();
+        await say({
+          text: `⚠️ *Channel too large for direct selection*\n\nThis channel has ${channelMembers.length} members. For performance reasons, channel-level selection only works in channels with up to ${maxSize} members.\n\n*💡 Please use me in a thread instead:*\n1. Create a thread or reply to an existing message\n2. Mention me there: \`@SpinBot ${task}\`\n\nThis way, only thread participants will be considered!`,
           thread_ts: threadTs,
         });
         return;

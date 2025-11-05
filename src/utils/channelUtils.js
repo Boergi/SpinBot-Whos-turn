@@ -3,6 +3,14 @@
  */
 
 /**
+ * Get maximum allowed channel size from environment
+ * @returns {number} Maximum channel size
+ */
+function getMaxChannelSize() {
+  return parseInt(process.env.MAX_CHANNEL_SIZE || '20', 10);
+}
+
+/**
  * Get all members of a channel
  * @param {Object} client - Slack client
  * @param {string} channelId - The channel ID
@@ -18,6 +26,15 @@ async function getChannelMembers(client, channelId) {
     console.error('Error fetching channel members:', error);
     return [];
   }
+}
+
+/**
+ * Check if channel size is within limits for status filtering
+ * @param {number} memberCount - Number of channel members
+ * @returns {boolean} True if within limits
+ */
+function isChannelSizeValid(memberCount) {
+  return memberCount <= getMaxChannelSize();
 }
 
 /**
@@ -102,5 +119,7 @@ module.exports = {
   getUserStatus,
   getExcludedEmojis,
   filterUsersByStatus,
+  getMaxChannelSize,
+  isChannelSizeValid,
 };
 
