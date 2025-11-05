@@ -10,15 +10,53 @@ const { buildWelcomeView } = require('../views/welcomeView');
  * Handle app_home_opened event
  */
 async function handleAppHomeOpened({ event, client }) {
+  const userId = event.user;
+  
   try {
-    const userId = event.user;
-    let blocks;
-
     console.log(`App Home opened by user: ${userId}`);
+
+    // Show loading screen immediately
+    await client.views.publish({
+      user_id: userId,
+      view: {
+        type: 'home',
+        blocks: [
+          {
+            type: "header",
+            text: {
+              type: "plain_text",
+              text: "📊 SpinBot",
+              emoji: true
+            }
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "⏳ *Loading...*\n\nPlease wait while we fetch the latest data."
+            }
+          },
+          {
+            type: "context",
+            elements: [
+              {
+                type: "mrkdwn",
+                text: "_This may take a few seconds..._"
+              }
+            ]
+          }
+        ]
+      }
+    });
+    
+    console.log(`Loading screen published for user: ${userId}`);
+
+    // Now load the actual content
+    let blocks;
 
     // Check if user is authorized to view stats
     if (isAuthorizedUser(userId)) {
-      console.log(`User ${userId} is authorized - showing stats`);
+      console.log(`User ${userId} is authorized - loading stats`);
       blocks = await buildStatsView(client);
     } else {
       console.log(`User ${userId} is not authorized - showing welcome screen`);
@@ -32,7 +70,7 @@ async function handleAppHomeOpened({ event, client }) {
       blocks = buildWelcomeView();
     }
 
-    // Publish the view
+    // Publish the final view
     await client.views.publish({
       user_id: userId,
       view: {
@@ -48,10 +86,18 @@ async function handleAppHomeOpened({ event, client }) {
     // Try to publish an error view as fallback
     try {
       await client.views.publish({
-        user_id: event.user,
+        user_id: userId,
         view: {
           type: 'home',
           blocks: [
+            {
+              type: "header",
+              text: {
+                type: "plain_text",
+                text: "📊 SpinBot",
+                emoji: true
+              }
+            },
             {
               type: "section",
               text: {
