@@ -27,7 +27,7 @@ When you use `@SpinBot` in a thread:
 Add to your `.env` file:
 
 ```env
-EXCLUDED_STATUS_EMOJIS=:palm_tree:,:face_with_thermometer:,:kids:,:schule:
+EXCLUDED_STATUS_EMOJIS=:palm_tree:,:face_with_thermometer:,:kids:,:school:
 ```
 
 **Common examples:**
@@ -202,7 +202,7 @@ EXCLUDED_STATUS_EMOJIS=:palm_tree:,:face_with_thermometer:
 
 **Production:**
 ```env
-EXCLUDED_STATUS_EMOJIS=:palm_tree:,:face_with_thermometer:,:kids:,:schule:,:house:,:airplane:
+EXCLUDED_STATUS_EMOJIS=:palm_tree:,:face_with_thermometer:,:kids:,:school:,:house:,:airplane:
 ```
 
 ### Testing
