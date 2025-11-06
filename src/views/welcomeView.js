@@ -2,12 +2,27 @@
  * Welcome view builder for App Home (non-authorized users)
  */
 
+const { getAllowedReactionEmojis } = require('../utils/threadUtils');
+const { getExcludedEmojis } = require('../utils/channelUtils');
+
 /**
  * Build default App Home view with README
  * @param {boolean} showStatsButton - Whether to show the "View Statistics" button (for authorized users)
  * @returns {Array} Array of Slack blocks
  */
 function buildWelcomeView(showStatsButton = false) {
+  // Get allowed reaction emojis from environment
+  const allowedEmojis = getAllowedReactionEmojis();
+  const emojiText = allowedEmojis.length > 0 
+    ? allowedEmojis.map(e => `:${e}:`).join(', ')
+    : '👍, ➕, or ✅';
+  
+  // Get excluded status emojis from environment
+  const excludedEmojis = getExcludedEmojis();
+  const statusEmojiText = excludedEmojis.length > 0
+    ? excludedEmojis.join(', ')
+    : ':palm_tree: (vacation), :face_with_thermometer: (sick), :kids: (parental leave), or :school: (school)';
+  
   const blocks = [
     {
       type: "header",
@@ -72,7 +87,7 @@ function buildWelcomeView(showStatsButton = false) {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "```@SpinBot who has to pre-order lunch?```\nor\n```@SpinBot wer muss Kaffee holen?```\n\n💡 *Tip:* Users can also just react with 👍, ➕, or ✅ to participate!"
+        text: `\`\`\`@SpinBot who has to pre-order lunch?\`\`\`\nor\n\`\`\`@SpinBot wer muss Kaffee holen?\`\`\`\n\n💡 *Tip:* Users can also just react with ${emojiText} to participate!`
       }
     },
     {
@@ -96,7 +111,7 @@ function buildWelcomeView(showStatsButton = false) {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "🧵 *Works in Threads*\nUse @mentions directly in any thread - slash commands don't work in threads!\n\n👍 *Reaction Support*\nUsers can participate by writing a message OR by reacting with 👍, ➕, or ✅ - perfect for quick polls!\n\n📢 *Works in Channels*\nMention the bot directly in a channel to select from all members - works with any channel size!\n\n🌍 *Bilingual Support*\nUse \"who\" (English) or \"wer\" (German) - both work perfectly!\n\n⚖️ *Fair Weighted Selection*\nUsers who were recently selected have a lower chance of being picked again. The more recent the selection, the lower the chance - ensuring fair distribution!\n\n🤖 *Excludes Bots*\nThe bot will never select itself, only real users. Bots and deleted users are automatically excluded.\n\n🏖️ *Smart Status Filtering*\nIn channels, users with :palm_tree: (vacation), :face_with_thermometer: (sick), :kids: (parental leave), or :school: (school) status are automatically excluded!\n\n💬 *Smart Message Parsing*\nThe bot only processes text from @SpinBot until the first \"?\". Everything before the mention and after the question mark is ignored - perfect for complex messages!\n\n⚡ *Performance Optimized*\nUser lists are cached for 10 minutes to reduce API calls and ensure fast responses."
+        text: `🧵 *Works in Threads*\nUse @mentions directly in any thread - slash commands don't work in threads!\n\n👍 *Reaction Support*\nUsers can participate by writing a message OR by reacting with ${emojiText} - perfect for quick polls!\n\n📢 *Works in Channels*\nMention the bot directly in a channel to select from all members - works with any channel size!\n\n🌍 *Bilingual Support*\nUse \"who\" (English) or \"wer\" (German) - both work perfectly!\n\n⚖️ *Fair Weighted Selection*\nUsers who were recently selected have a lower chance of being picked again. The more recent the selection, the lower the chance - ensuring fair distribution!\n\n🤖 *Excludes Bots*\nThe bot will never select itself, only real users. Bots and deleted users are automatically excluded.\n\n🏖️ *Smart Status Filtering*\nIn channels, users with ${statusEmojiText} status are automatically excluded!\n\n💬 *Smart Message Parsing*\nThe bot only processes text from @SpinBot until the first \"?\". Everything before the mention and after the question mark is ignored - perfect for complex messages!\n\n⚡ *Performance Optimized*\nUser lists are cached for 10 minutes to reduce API calls and ensure fast responses.`
       }
     },
     {
@@ -147,7 +162,7 @@ function buildWelcomeView(showStatsButton = false) {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "*Q: Why can't I use /spinbot in threads?*\nA: Slack doesn't support slash commands in threads. Use @SpinBot instead!\n\n*Q: Can the bot select itself?*\nA: No! The bot is automatically excluded from selection.\n\n*Q: Do I have to write a message to participate?*\nA: No! You can also just react with 👍, ➕, or ✅ to be included in the selection.\n\n*Q: How does status filtering work?*\nA: When mentioned directly in a channel, users with :palm_tree: (vacation), :face_with_thermometer: (sick), :kids: (parental leave), or :school: (school/training) status are excluded. In threads, everyone is eligible.\n\n*Q: What's the difference between channel and thread mode?*\nA: Channel mode selects from all members (with status filtering). Thread mode selects from participants who wrote OR reacted (no filtering).\n\n*Q: Does it work with large channels?*\nA: Yes! No member limits - the bot works efficiently with channels of any size.\n\n*Q: How fair is the selection?*\nA: The bot uses weighted randomness based on selection history. Users recently selected have lower chances - the most recent selection gets 50% lower chance, with the penalty decreasing over time. Everyone still has a chance, but it's fairer!\n\n*Q: What if my message has extra text?*\nA: No problem! The bot only processes text between @SpinBot and the first \"?\". Everything before/after is ignored."
+        text: `*Q: Why can't I use /spinbot in threads?*\nA: Slack doesn't support slash commands in threads. Use @SpinBot instead!\n\n*Q: Can the bot select itself?*\nA: No! The bot is automatically excluded from selection.\n\n*Q: Do I have to write a message to participate?*\nA: No! You can also just react with ${emojiText} to be included in the selection.\n\n*Q: How does status filtering work?*\nA: When mentioned directly in a channel, users with ${statusEmojiText} status are excluded. In threads, everyone is eligible.\n\n*Q: What's the difference between channel and thread mode?*\nA: Channel mode selects from all members (with status filtering). Thread mode selects from participants who wrote OR reacted (no filtering).\n\n*Q: Does it work with large channels?*\nA: Yes! No member limits - the bot works efficiently with channels of any size.\n\n*Q: How fair is the selection?*\nA: The bot uses weighted randomness based on selection history. Users recently selected have lower chances - the most recent selection gets 50% lower chance, with the penalty decreasing over time. Everyone still has a chance, but it's fairer!\n\n*Q: What if my message has extra text?*\nA: No problem! The bot only processes text between @SpinBot and the first \"?\". Everything before/after is ignored.`
       }
     },
     {

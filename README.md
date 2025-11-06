@@ -173,7 +173,7 @@ SpinBot tracks usage statistics in a MySQL database.
    AUTHORIZED_STATS_USERS=U12345678,U87654321
    
    # Optional: Exclude users with specific status emojis (channel-level only)
-   EXCLUDED_STATUS_EMOJIS=:palm_tree:,:face_with_thermometer:,:kids:,:schule:
+   EXCLUDED_STATUS_EMOJIS=:palm_tree:,:face_with_thermometer:,:kids:,:school:
    
    # Optional: Allowed reaction emojis for thread participation
    # Both :+1: and +1 work (colons are optional)
