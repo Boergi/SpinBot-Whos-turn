@@ -138,14 +138,14 @@ function buildWelcomeView(showStatsButton = false) {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "*🔧 Technical Details*"
+        text: "*🕐 Scheduled Workflows*"
       }
     },
     {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "• Built with Slack Bolt for Node.js\n• Uses Socket Mode (WebSocket) - no public server needed\n• Weighted random selection based on history (fair distribution)\n• User list caching (10 minutes) for optimal performance\n• Smart message parsing (ignores text before/after bot mention)\n• MySQL database for usage tracking\n• Bilingual: English & German"
+        text: "SpinBot works perfectly with Slack's Workflow Builder for automated daily tasks!\n\n*Example: Daily Standup Moderator*\n\nCreate a scheduled workflow that posts this message every morning:\n```\nGood morning team! 🌅\nTime for our daily standup.\n\n@SpinBot, who moderates the Daily today?\n\nLet's walk the board → Right ➡️ Left\n```\n\n*What happens:*\n• The workflow posts at 9:00 AM automatically\n• SpinBot reads only the relevant part: \"who moderates the Daily today\"\n• It selects someone fairly based on history\n• Everything before/after is ignored (thanks to smart parsing!)\n\n💡 *Tip:* You can use this for any recurring task - lunch orders, meeting notes, cleanup duty, etc."
       }
     },
     {
@@ -162,7 +162,7 @@ function buildWelcomeView(showStatsButton = false) {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*Q: Why can't I use /spinbot in threads?*\nA: Slack doesn't support slash commands in threads. Use @SpinBot instead!\n\n*Q: Can the bot select itself?*\nA: No! The bot is automatically excluded from selection.\n\n*Q: Do I have to write a message to participate?*\nA: No! You can also just react with ${emojiText} to be included in the selection.\n\n*Q: How does status filtering work?*\nA: When mentioned directly in a channel, users with ${statusEmojiText} status are excluded. In threads, everyone is eligible.\n\n*Q: What's the difference between channel and thread mode?*\nA: Channel mode selects from all members (with status filtering). Thread mode selects from participants who wrote OR reacted (no filtering).\n\n*Q: Does it work with large channels?*\nA: Yes! No member limits - the bot works efficiently with channels of any size.\n\n*Q: How fair is the selection?*\nA: The bot uses weighted randomness based on selection history. Users recently selected have lower chances - the most recent selection gets 50% lower chance, with the penalty decreasing over time. Everyone still has a chance, but it's fairer!\n\n*Q: What if my message has extra text?*\nA: No problem! The bot only processes text between @SpinBot and the first \"?\". Everything before/after is ignored.`
+        text: `*Q: Why can't I use /spinbot in threads?*\nA: Slack doesn't support slash commands in threads. Use @SpinBot instead!\n\n*Q: Can the bot select itself?*\nA: No! The bot is automatically excluded from selection.\n\n*Q: Do I have to write a message to participate?*\nA: No! You can also just react with ${emojiText} to be included in the selection.\n\n*Q: How does status filtering work?*\nA: When mentioned directly in a channel, users with ${statusEmojiText} status are excluded. In threads, everyone is eligible.\n\n*Q: What's the difference between channel and thread mode?*\nA: Channel mode selects from all members (with status filtering). Thread mode selects from participants who wrote OR reacted (no filtering).\n\n*Q: Does it work with large channels?*\nA: Yes! No member limits - the bot works efficiently with channels of any size.\n\n*Q: How fair is the selection?*\nA: The bot uses weighted randomness based on selection history. Users recently selected have lower chances - the most recent selection gets 50% lower chance, with the penalty decreasing over time. Everyone still has a chance, but it's fairer!\n\n*Q: What if my message has extra text?*\nA: No problem! The bot only processes text between @SpinBot and the first \"?\". Everything before/after is ignored.\n\n*Q: Can I use it with Workflow Builder?*\nA: Absolutely! Create a scheduled workflow that mentions @SpinBot. Perfect for daily standups, lunch orders, or any recurring task. The smart parsing ensures only the relevant part is processed.`
       }
     },
     {
@@ -180,6 +180,23 @@ function buildWelcomeView(showStatsButton = false) {
       text: {
         type: "mrkdwn",
         text: "Usage statistics are available for authorized administrators only. If you need access to statistics, please contact your workspace administrator.\n\nStatistics include usage counts, most active channels, and user activity data."
+      }
+    },
+    {
+      type: "divider"
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "*🔧 Source Code*"
+      }
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "🔗 *GitHub:* https://github.com/Boergi/SpinBot-Whos-turn\n\nOpen source, MIT-style licensed. Feel free to contribute!"
       }
     },
     {

@@ -262,6 +262,7 @@ See [DATABASE.md](DATABASE.md) for more details on tracked data and how to add a
 
 ## Additional Documentation
 
+- 📖 [WORKFLOWS.md](WORKFLOWS.md) - **Using SpinBot with Slack Workflow Builder** 🕐
 - 📖 [FAIR_SELECTION.md](FAIR_SELECTION.md) - Detailed explanation of the weighted selection algorithm
 - 📖 [MESSAGE_PARSING.md](MESSAGE_PARSING.md) - How smart message parsing works
 - 📖 [PERFORMANCE.md](PERFORMANCE.md) - Performance optimizations and caching
