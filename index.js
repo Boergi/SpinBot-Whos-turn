@@ -4,7 +4,7 @@ require('dotenv').config();
 // Import handlers
 const { handleAppMention } = require('./src/handlers/appMentionHandler');
 const { handleSlashCommand } = require('./src/handlers/slashCommandHandler');
-const { handleAppHomeOpened } = require('./src/handlers/appHomeHandler');
+const { handleAppHomeOpened, handleViewStatsAction, handleViewReadmeAction } = require('./src/handlers/appHomeHandler');
 
 // Initialize the app with Socket Mode (WebSocket)
 const app = new App({
@@ -21,6 +21,10 @@ app.event('app_home_opened', handleAppHomeOpened);
 
 // Register command handlers
 app.command('/spinbot', handleSlashCommand);
+
+// Register action handlers (App Home navigation buttons)
+app.action('view_stats', handleViewStatsAction);
+app.action('view_readme', handleViewReadmeAction);
 
 // Error handler
 app.error(async (error) => {

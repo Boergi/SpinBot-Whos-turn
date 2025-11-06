@@ -25,6 +25,24 @@ async function buildStatsView(client, botChannels = null) {
         }
       },
       {
+        type: "actions",
+        elements: [
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              text: "📖 View Documentation",
+              emoji: true
+            },
+            action_id: "view_readme",
+            style: "primary"
+          }
+        ]
+      },
+      {
+        type: "divider"
+      },
+      {
         type: "section",
         fields: [
           {

@@ -13,6 +13,9 @@ A Slack bot that randomly selects a user from a thread to decide who has to perf
 - 👍 Reaction support: Users can participate by reacting with 👍, ➕, or ✅
 - 📢 Channel mode: Selects from all channel members
 - 🏖️ Smart status filtering: Excludes users on vacation, sick, etc.
+- ⚖️ **Fair weighted selection:** Users recently selected have lower chances (history-based)
+- 💬 **Smart message parsing:** Only processes text between @SpinBot and "?"
+- ⚡ **Performance optimized:** User list caching (10 minutes) for faster responses
 - 🎲 Randomly selects a user (excluding the bot itself)
 - 🔌 Uses WebSocket (Socket Mode) for real-time communication
 - 📝 Flexible task description
@@ -58,6 +61,14 @@ or
 The bot selects randomly from **all channel members** (excluding users with specific status emojis).
 
 > 💡 **Note:** You can use "who" or "wer" at the beginning and add a "?" at the end - the bot will automatically clean it up for the output!
+
+> 💬 **Smart Parsing:** The bot only processes text between `@SpinBot` and the first `?`. Everything before the mention and after the question mark is ignored. Perfect for complex messages like:
+> ```
+> Please change moderators: Alice -> Bob -> Charlie
+> @SpinBot, who moderates the Daily today?
+> Let's walk the board...
+> ```
+> The bot will only process: "who moderates the Daily today"
 
 > 👍 **Tip:** Users can participate by reacting with 👍, ➕, or ✅ instead of writing a message! See [REACTIONS.md](REACTIONS.md) for details.
 
@@ -249,11 +260,28 @@ Only users specified in the `AUTHORIZED_STATS_USERS` environment variable can vi
 
 See [DATABASE.md](DATABASE.md) for more details on tracked data and how to add authorized users.
 
+## Additional Documentation
+
+- 📖 [FAIR_SELECTION.md](FAIR_SELECTION.md) - Detailed explanation of the weighted selection algorithm
+- 📖 [MESSAGE_PARSING.md](MESSAGE_PARSING.md) - How smart message parsing works
+- 📖 [PERFORMANCE.md](PERFORMANCE.md) - Performance optimizations and caching
+- 📖 [STATUS_FILTERING.md](STATUS_FILTERING.md) - Status emoji filtering for channels
+- 📖 [REACTIONS.md](REACTIONS.md) - How reaction-based participation works
+- 📖 [DATABASE.md](DATABASE.md) - Database setup and usage statistics
+- 📖 [STATS_AUTHORIZATION.md](STATS_AUTHORIZATION.md) - Configure statistics access
+- 📖 [MIGRATION.md](MIGRATION.md) - Migration guide from older versions
+
 ## Technical Details
 
 - **Framework:** Slack Bolt for Node.js
 - **Communication:** Socket Mode (WebSocket) - no public server required
 - **Language:** JavaScript (Node.js)
+- **Selection Algorithm:** Weighted randomness based on selection history
+  - Users recently selected get lower weights (50% penalty for most recent, decreasing over time)
+  - Ensures fair distribution while maintaining randomness
+  - History tracked per channel (last 20 selections)
+- **Performance:** User list caching (10 minutes) reduces API calls significantly
+- **Message Parsing:** Extracts only relevant text between bot mention and first "?"
 - **Dependencies:**
   - `@slack/bolt` - Slack Bot Framework
   - `dotenv` - Environment Variables Management

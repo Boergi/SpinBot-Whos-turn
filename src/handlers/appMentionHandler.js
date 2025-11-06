@@ -17,15 +17,31 @@ async function handleAppMention({ event, say, client, context }) {
     // Get bot's own user ID
     const botUserId = context.botUserId;
     
-    // Extract task from message (remove the bot mention)
-    const mentionRegex = /<@[A-Z0-9]+>/g;
-    let task = event.text.replace(mentionRegex, '').trim();
+    // Extract task from message
+    // Step 1: Find the bot mention and extract everything from there
+    const mentionMatch = event.text.match(/<@[A-Z0-9]+>/);
+    let relevantText = event.text;
     
-    // Remove "wer" or "who" from the beginning of the task
+    if (mentionMatch) {
+      // Get text starting from the bot mention
+      const mentionIndex = event.text.indexOf(mentionMatch[0]);
+      relevantText = event.text.substring(mentionIndex);
+    }
+    
+    // Step 2: Cut off everything after the first question mark (if present)
+    const questionMarkIndex = relevantText.indexOf('?');
+    if (questionMarkIndex !== -1) {
+      relevantText = relevantText.substring(0, questionMarkIndex);
+    }
+    
+    // Step 3: Remove the bot mention tag
+    let task = relevantText.replace(/<@[A-Z0-9]+>/g, '').trim();
+    
+    // Step 4: Remove leading comma and whitespace (from "@SpinBot, who...")
+    task = task.replace(/^[,\s]+/, '').trim();
+    
+    // Step 5: Remove "wer" or "who" from the beginning of the task
     task = task.replace(/^(wer|who)\s+/i, '').trim();
-    
-    // Remove trailing question mark if present
-    task = task.replace(/\?$/, '').trim();
     
     // Default task if nothing is provided
     if (!task) {
@@ -98,8 +114,8 @@ async function handleAppMention({ event, say, client, context }) {
       console.log(`${users.length} thread participants (excluding bot):`, users);
     }
 
-    // Select a random user
-    const selectedUser = selectRandomUser(users);
+    // Select a random user using weighted randomness based on history
+    const selectedUser = await selectRandomUser(users, channelId);
 
     // Get channel info for better logging
     let channelName = null;
