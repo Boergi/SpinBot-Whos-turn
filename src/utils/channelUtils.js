@@ -2,6 +2,22 @@
  * Channel-related utility functions
  */
 
+// Cache for users list (10 minutes)
+const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes in milliseconds
+let usersCache = {
+  data: null,
+  timestamp: null,
+};
+
+/**
+ * Clear the users cache (useful for testing or manual refresh)
+ */
+function clearUsersCache() {
+  usersCache.data = null;
+  usersCache.timestamp = null;
+  console.log('🗑️  Users cache cleared');
+}
+
 /**
  * Get maximum allowed channel size from environment
  * @returns {number} Maximum channel size
@@ -72,11 +88,22 @@ function getExcludedEmojis() {
 }
 
 /**
- * Get all users with their profiles (cached)
+ * Get all users with their profiles (cached for 10 minutes)
  * @param {Object} client - Slack client
  * @returns {Map} Map of userId -> user object with profile
  */
 async function getAllUsers(client) {
+  const now = Date.now();
+  
+  // Check if cache is still valid
+  if (usersCache.data && usersCache.timestamp && (now - usersCache.timestamp) < CACHE_DURATION) {
+    const cacheAge = Math.round((now - usersCache.timestamp) / 1000);
+    console.log(`📦 Using cached users list (${cacheAge}s old, ${usersCache.data.size} users)`);
+    return usersCache.data;
+  }
+  
+  // Cache is invalid or doesn't exist, fetch fresh data
+  console.log('🔄 Fetching fresh users list from Slack API...');
   const usersMap = new Map();
   let cursor = undefined;
   
@@ -93,7 +120,11 @@ async function getAllUsers(client) {
     cursor = result.response_metadata?.next_cursor;
   } while (cursor);
   
-  console.log(`Loaded ${usersMap.size} users with profiles`);
+  // Update cache
+  usersCache.data = usersMap;
+  usersCache.timestamp = now;
+  
+  console.log(`✅ Loaded ${usersMap.size} users with profiles (cached for 10 minutes)`);
   return usersMap;
 }
 
@@ -242,5 +273,6 @@ module.exports = {
   isChannelSizeValid,
   getBotChannels,
   getAllUsers,
+  clearUsersCache,
 };
 
